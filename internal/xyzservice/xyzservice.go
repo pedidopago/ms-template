@@ -2,6 +2,7 @@ package xyzservice
 
 import (
 	"context"
+	"errors"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pedidopago/ms-grpcd/pkg/grpcd/app"
@@ -26,8 +27,12 @@ func (s *Service) Start(c app.ServiceContext) error {
 		}
 	}
 
-	// TODO: register rpc service
-	return nil
+	// FIXME: line below
+	// xyzpb.RegisterXYZServiceServer(c.Server(), s)
+
+	// FIXME: remove error below
+	return errors.New("FIXME: line 31")
+	//return nil
 }
 
 func (s *Service) Stop(c context.Context) error {
