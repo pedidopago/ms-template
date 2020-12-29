@@ -218,9 +218,6 @@ func Devdocker() error {
 	if err := Devbuild(); err != nil {
 		return err
 	}
-	// if [[ -z "${REGISTRY}" ]]; then
-	//   REGISTRY=registry.docker.pedidopago.com.br/ms/order
-	// fi
 
 	version := defaults.String(os.Getenv("VERSION"), "latest")
 	registry := defaults.String(os.Getenv("DOCKER_REGISTRY"), "registry.docker.pedidopago.com.br/ms/"+name)
