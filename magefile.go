@@ -189,7 +189,7 @@ func Setup(v string) error {
 			return err
 		}
 
-		if err := ioutil.WriteFile("dbm.env", []byte("DB_FILES="+dbfiles+"\nDB_CS="+ndbcs+"\nOPEN_CMD=code"), 0644); err != nil {
+		if err := ioutil.WriteFile("dbm.env", []byte("DB_FILES="+dbfiles+"\nDB_CS="+ndbcs+"\nOPEN_CMD=code\nDOCKER_REGISTRY=registry.docker.pedidopago.com.br/ms/"+name), 0644); err != nil {
 			return err
 		}
 	}
@@ -207,6 +207,26 @@ func Devbuild() error {
 		"GOARCH": "amd64",
 	}, os.Stdout, os.Stderr, "go", "build", "-o", "tmp/service_linux_x64", "cmd/"+name+"/main.go")
 	return err
+}
+
+func Devdocker() error {
+	loadEnvs()
+	//
+	nd, _ := ioutil.ReadFile(".name")
+	name := strings.TrimSpace(string(nd))
+	//
+	if err := Devbuild(); err != nil {
+		return err
+	}
+	// if [[ -z "${REGISTRY}" ]]; then
+	//   REGISTRY=registry.docker.pedidopago.com.br/ms/order
+	// fi
+
+	version := defaults.String(os.Getenv("VERSION"), "latest")
+	registry := defaults.String(os.Getenv("DOCKER_REGISTRY"), "registry.docker.pedidopago.com.br/ms/"+name)
+
+	// docker build --build-arg VERSION=${VERSION} -t ${REGISTRY}:${VERSION} .
+	return sh.Run("docker", "build", "--build-arg", "VERSION="+version, "-t", registry+":"+version, "-f", "dev.Dockerfile", ".")
 }
 
 func replaceStringInFile(fname, oldv, newv string) error {
