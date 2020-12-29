@@ -137,6 +137,9 @@ func Setup(v string) error {
 		if err := replaceStringInFile("internal/"+name+"/"+name+".go", "xyzservice", name); err != nil {
 			return err
 		}
+		if err := replaceStringInFile("internal/"+name+"/"+name+".go", "xyzpb", name+"pb"); err != nil {
+			return err
+		}
 
 		_ = sh.Run("rm", "protos/"+name+"pb"+"/service.pb.go")
 
