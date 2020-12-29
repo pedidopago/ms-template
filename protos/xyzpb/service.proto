@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package xyzpb;
+
+import "types.proto";
+// check mkproto, this is linked as:
+// import "go.pedidopago.com.br/microservices/proto/opt/types.proto";
+
+option go_package = "github.com/pedidopago/ms-template/protos/xyzpb";
+
+service XYZService {
+  rpc Example(ExampleRequest) returns(ExampleResponse) {}
+}
+
+message ExampleRequest {}
+message ExampleResponse {}
