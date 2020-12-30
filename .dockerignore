@@ -1,0 +1,6 @@
+.git
+.github
+.idea
+logs
+*.log
+tmp/

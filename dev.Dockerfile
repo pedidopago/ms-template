@@ -1,10 +1,9 @@
 FROM alpine
 LABEL maintainer="Gabriel Ochsenhofer (gabs@gabs.dev)"
 RUN apk add --no-cache ca-certificates
-RUN mkdir -p /ms
-COPY tmp/service_linux_x64 /service
-WORKDIR /ms
+COPY tmp/service_linux_x64 /ms
+WORKDIR /
 
 ENV LOG_LEVEL=warn
 
-ENTRYPOINT [ "/service" ]
+ENTRYPOINT [ "/ms" ]

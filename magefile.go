@@ -219,6 +219,12 @@ func setupInstall() error {
 		if err := replaceStringInFile("internal/"+name+"/"+name+".go", "xyzpb", name+"pb"); err != nil {
 			return err
 		}
+		if err := replaceStringInFile(".Dockerfile", "xyzservice", name); err != nil {
+			return err
+		}
+		if err := replaceStringInFile(".Dockerfile", "github.com/pedidopago/ms-template", module); err != nil {
+			return err
+		}
 
 		_ = sh.Run("rm", "protos/"+name+"pb"+"/service.pb.go")
 
