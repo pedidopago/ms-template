@@ -188,8 +188,23 @@ func Devdeploy() error {
 	return sh.Run("docker", "push", registry)
 }
 
-gunc Gen() error {
+func Gen() error {
 	return sh.Run("go", "generate", "./...")
+}
+
+func Migrationtest(dbcs, mpath string) error {
+	// loadEnvs()
+	m, err := migrate.New(mpath, dbcs)
+	if err != nil {
+		return err
+	}
+	if err := m.Up(); err != nil {
+		return err
+	}
+	if err := m.Down(); err != nil {
+		return err
+	}
+	return nil
 }
 
 // # remove >>

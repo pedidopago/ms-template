@@ -1,0 +1,81 @@
+name: UnitTests
+
+on:
+  pull_request:
+    branches: [develop, master]
+  push:
+    branches:
+      - feature/**
+      - release/**
+      - hotfix/**
+      - bugfix/**
+env:
+  GOPRIVATE: go.pedidopago.com.br,github.com/pedidopago/*
+  GOPROXY: direct
+  MIGRATIONS_PARENT: internal/database
+  TEST_COVER_MAIN: internal/xyzservice
+  MIN_COVERAGE: 30
+  HOME: /home/runner # required for self-hosted
+  MDBCS: mysql://root:123456789@tcp(localhost:33306)/ms_temp?parseTime=true&collation=utf8mb4_general_ci&charset=utf8mb4,utf8&multiStatements=true
+  DB_CS: mysql://root:123456789@tcp(localhost:33306)/ms_temp?parseTime=true&collation=utf8mb4_general_ci&charset=utf8mb4,utf8&multiStatements=true
+jobs:
+  test:
+    strategy:
+      matrix:
+        #goversion: [1.13.x, 1.14.x]
+        goversion: [1.14.x]
+        # platform: [ubuntu-latest]
+    # runs-on: ${{ matrix.platform }}
+    runs-on: self-hosted
+    services:
+      mariadb:
+        image: mariadb:10.5
+        env:
+          MYSQL_ROOT_PASSWORD: "123456789"
+          MYSQL_DATABASE: ms_temp
+        ports:
+          - 33306:3306
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.goversion }}
+      - name: Configure git for private modules
+        env:
+          USER: ${{ secrets.PRIVREPO_USER }}
+          TOKEN: ${{ secrets.PRIVREPO_TOKEN }}
+        run: |
+          git config --global url."https://${USER}:${TOKEN}@github.com/pedidopago".insteadOf "git+ssh://git@github.com/pedidopago" --replace-all
+          git config --global url."https://${USER}:${TOKEN}@github.com/pedidopago".insteadOf "https://github.com/pedidopago"  --add
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Cache Go modules and dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - name: Test Go Code
+        env:
+          TEST_DBCS: "root:123456789@tcp(localhost:33306)/ms_temp?parseTime=true"
+        run: |
+          go get github.com/rakyll/statik
+          cd $MIGRATIONS_PARENT && go generate . && cd -
+          pwd
+          ls -al $MIGRATIONS_PARENT/statik
+          go test ./...
+      - name: Test Migration Consistency
+        uses: magefile/mage-action@v1
+        with:
+          version: latest
+          args: migrationtest ${{ env.MDBCS }} file://internal/database/migrations
+      - name: Test Coverage
+        env:
+          TEST_DBCS: "root:123456789@tcp(localhost:33306)/ms_temp?parseTime=true"
+        run: |
+          cd $TEST_COVER_MAIN;
+          COVER=$(go test -cover | grep coverage: | cut -c 11- | awk -F '%' '{print $1}')
+          RESULT=$(echo "$COVER > $MIN_COVERAGE" | bc -l)
+          if [[ $RESULT -eq 1 ]]; then echo "(PASS) COVERAGE $COVER > $MIN_COVERAGE (min)"; exit 0; else echo "TEST COVERAGE IS NOT ENOUGH (CURRENT: $COVER MIN: $MIN_COVERAGE)"; exit 1; fi
