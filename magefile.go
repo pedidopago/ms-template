@@ -96,7 +96,7 @@ func Newmigration(name string) error {
 	return nil
 }
 
-func Setup(v string) error {
+func Setup() error {
 	if _, e := os.Stat(".name"); e != nil {
 		print("service name: ")
 		rdr := bufio.NewReader(os.Stdin)
