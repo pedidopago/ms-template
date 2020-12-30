@@ -109,6 +109,16 @@ func Setup() error {
 		if name == "" {
 			return errors.New("invalid service name")
 		}
+		print("\nmodule name+path (e.g. github.com/pedidopago/ms-template): ")
+		str, err = rdr.ReadString('\n')
+		if err != nil {
+			return err
+		}
+		str = strings.TrimSpace(str)
+		module := slugify.Slugify(str)
+		if module == "" {
+			return errors.New("invalid module name")
+		}
 		// ungit it
 		if err := sh.Run("rm", "-rf", ".git"); err != nil {
 			return err
@@ -147,6 +157,17 @@ func Setup() error {
 			return err
 		}
 		if err := replaceStringInFile("protos/"+name+"pb/gen.go", "xyzpb", name+"pb"); err != nil {
+			return err
+		}
+
+		// replace module path
+		if err := replaceStringInFile("cmd/"+name+"/main.go", "github.com/pedidopago/ms-template", module); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("go.mod", "github.com/pedidopago/ms-template", module); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/service.proto", "github.com/pedidopago/ms-template", module); err != nil {
 			return err
 		}
 
