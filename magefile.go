@@ -150,6 +150,16 @@ func Devbuild() error {
 func Devdocker() error {
 	loadEnvs()
 	//
+	version := defaults.String(os.Getenv("VERSION"), "dev")
+	tags := []string{version}
+	registry := defaults.String(os.Getenv("DOCKER_REGISTRY"), "registry.docker.pedidopago.com.br/ms/"+name)
+
+	//
+	if v := os.Getenv("DOCKER_TAGS"); v != "" {
+		ts := strings.Split(v, ",")
+		tags = append(tags, ts...)
+	}
+	//
 	nd, _ := ioutil.ReadFile(".name")
 	name := strings.TrimSpace(string(nd))
 	//
@@ -157,11 +167,29 @@ func Devdocker() error {
 		return err
 	}
 
-	version := defaults.String(os.Getenv("VERSION"), "latest")
-	registry := defaults.String(os.Getenv("DOCKER_REGISTRY"), "registry.docker.pedidopago.com.br/ms/"+name)
-
 	// docker build --build-arg VERSION=${VERSION} -t ${REGISTRY}:${VERSION} .
-	return sh.Run("docker", "build", "--build-arg", "VERSION="+version, "-t", registry+":"+version, "-f", "dev.Dockerfile", ".")
+	args := []string{
+		"build",
+		"--build-arg",
+		"VERSION=" + version,
+	}
+	for _, tag := range tags {
+		args = append(args, "-t", registry+":"+tag)
+	}
+	args = append(args, "-f", "dev.Dockerfile", ".")
+	return sh.Run("docker", args...)
+}
+
+func Devdeploy() error {
+	if err := Devdocker(); err != nil {
+		return err
+	}
+	registry := defaults.String(os.Getenv("DOCKER_REGISTRY"), "registry.docker.pedidopago.com.br/ms/"+name)
+	return sh.Run("docker", "push", registry)
+}
+
+gunc Gen() error {
+	return sh.Run("go", "generate", "./...")
 }
 
 // # remove >>
