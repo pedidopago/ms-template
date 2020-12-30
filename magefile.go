@@ -143,10 +143,10 @@ func Setup() error {
 
 		_ = sh.Run("rm", "protos/"+name+"pb"+"/service.pb.go")
 
-		if err := replaceStringInFile("internal/"+name+"/service.proto", "xyzpb", name+"pb"); err != nil {
+		if err := replaceStringInFile("protos/"+name+"pb/service.proto", "xyzpb", name+"pb"); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("internal/"+name+"/gen.go", "xyzpb", name+"pb"); err != nil {
+		if err := replaceStringInFile("protos/"+name+"pb/gen.go", "xyzpb", name+"pb"); err != nil {
 			return err
 		}
 
