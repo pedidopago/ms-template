@@ -150,6 +150,9 @@ func Devbuild() error {
 func Devdocker() error {
 	loadEnvs()
 	//
+	nd, _ := ioutil.ReadFile(".name")
+	name := strings.TrimSpace(string(nd))
+	//
 	version := defaults.String(os.Getenv("VERSION"), "dev")
 	tags := []string{version}
 	registry := defaults.String(os.Getenv("DOCKER_REGISTRY"), "registry.docker.pedidopago.com.br/ms/"+name)
@@ -159,10 +162,6 @@ func Devdocker() error {
 		ts := strings.Split(v, ",")
 		tags = append(tags, ts...)
 	}
-	//
-	nd, _ := ioutil.ReadFile(".name")
-	name := strings.TrimSpace(string(nd))
-	//
 	if err := Devbuild(); err != nil {
 		return err
 	}
@@ -184,6 +183,10 @@ func Devdeploy() error {
 	if err := Devdocker(); err != nil {
 		return err
 	}
+	//
+	nd, _ := ioutil.ReadFile(".name")
+	name := strings.TrimSpace(string(nd))
+	//
 	registry := defaults.String(os.Getenv("DOCKER_REGISTRY"), "registry.docker.pedidopago.com.br/ms/"+name)
 	return sh.Run("docker", "push", registry)
 }
