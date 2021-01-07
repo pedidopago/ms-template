@@ -4,3 +4,6 @@ package xyzpb
 
 // fix the line below to use protoc-go-inject-tag
 //~~~ ~ ~~go ~ ~ :generate protoc-go-inject-tag -input=./service.pb.go
+
+// mockery
+//go:generate mockery --all

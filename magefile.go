@@ -13,6 +13,7 @@ import (
 	"os"
 	"path"
 	"regexp"
+	"runtime"
 	"strings"
 	"time"
 
@@ -84,6 +85,10 @@ func Newmigration(name string) error {
 }
 
 func Setup() error {
+	// fetch dependencies!
+	if err := setupDependencies(); err != nil {
+		return err
+	}
 	// # remove >>
 	if err := setupInstall(); err != nil {
 		return err
@@ -206,6 +211,34 @@ func Migrationtest(dbcs, mpath string) error {
 	}
 	if err := m.Down(); err != nil {
 		return err
+	}
+	return nil
+}
+
+func setupDependencies() error {
+	if err := sh.Run("mockery", "version"); err != nil {
+		// install mockery
+		if runtime.GOOS == "darwin" {
+			if err := sh.Run("brew", "help"); err == nil {
+				// install mockery via homebrew
+				if err := sh.RunV("brew", "install", "mockery"); err != nil {
+					return err
+				}
+			} else {
+				// install vi go get
+				if _, err := sh.Exec(map[string]string{
+					"GO111MODULE": "off",
+				}, os.Stdout, os.Stderr, "go", "get", "github.com/vektra/mockery/v2/.../"); err != nil {
+					return err
+				}
+			}
+		} else {
+			if _, err := sh.Exec(map[string]string{
+				"GO111MODULE": "off",
+			}, os.Stdout, os.Stderr, "go", "get", "github.com/vektra/mockery/v2/.../"); err != nil {
+				return err
+			}
+		}
 	}
 	return nil
 }
