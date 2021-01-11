@@ -305,12 +305,43 @@ func setupInstall() error {
 			return err
 		}
 
+		if err := replaceStringInFile("internal/meta/meta.go", "xyzservice", name); err != nil {
+			return err
+		}
+
 		_ = sh.Run("rm", "protos/"+name+"pb"+"/service.pb.go")
 
 		if err := replaceStringInFile("protos/"+name+"pb/service.proto", "xyzpb", name+"pb"); err != nil {
 			return err
 		}
 		if err := replaceStringInFile("protos/"+name+"pb/gen.go", "xyzpb", name+"pb"); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/client/client.go", "github.com/pedidopago/ms-template", module); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/client/grpcdclient.go", "github.com/pedidopago/ms-template", module); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/client/mockclient.go", "github.com/pedidopago/ms-template", module); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/client/client.go", "xyzpb", name+"pb"); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/client/grpcdclient.go", "xyzpb", name+"pb"); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/client/mockclient.go", "xyzpb", name+"pb"); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/client/client.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/client/grpcdclient.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/client/mockclient.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
 			return err
 		}
 
