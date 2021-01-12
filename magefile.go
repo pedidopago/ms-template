@@ -263,7 +263,7 @@ func setupInstall() error {
 			return err
 		}
 		str = strings.TrimSpace(str)
-		module := slugify.Slugify(str)
+		module := str
 		if module == "" {
 			return errors.New("invalid module name")
 		}
@@ -364,7 +364,7 @@ func setupInstall() error {
 		}
 
 		// remove self install
-		if err := regexpRemoveStringInFile("magefile.go", regexp.MustCompile(`(?s)// # remove >>.*// # remove <<`)); err != nil {
+		if err := regexpRemoveStringInFile("magefile.go", regexp.MustCompile(`(?s)// # remove >>.*?// # remove <<`)); err != nil {
 			return err
 		}
 	}
