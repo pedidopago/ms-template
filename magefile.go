@@ -216,7 +216,7 @@ func Migrationtest(dbcs, mpath string) error {
 }
 
 func setupDependencies() error {
-	if err := sh.Run("mockery", "version"); err != nil {
+	if err := sh.Run("mockery", "--help"); err != nil {
 		// install mockery
 		if runtime.GOOS == "darwin" {
 			if err := sh.Run("brew", "help"); err == nil {
