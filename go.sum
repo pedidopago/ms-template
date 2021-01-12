@@ -312,6 +312,8 @@ github.com/opencontainers/image-spec v1.0.1/go.mod h1:BtxoFyWECRxE4U/7sNtV5W15zM
 github.com/openzipkin/zipkin-go v0.1.6/go.mod h1:QgAqvLzwWbR/WpD4A3cGpPtJrZXNIiJc5AZX7/PBEpw=
 github.com/pedidopago/ms-grpcd v1.1.0 h1:YbJKqdXwYlVGX8RGXgVOCXnAa7fH7YMHLpowVsQMMWc=
 github.com/pedidopago/ms-grpcd v1.1.0/go.mod h1:WgyIYU728vnkX6Rhru0+ikY/37LWBBKVYFzNY+k33OI=
+github.com/pedidopago/ms-grpcd v1.1.2 h1:OAK1RlCZu4ZWiuj1Iel2L9byhYH3Y7+ZSKviVmpkfXo=
+github.com/pedidopago/ms-grpcd v1.1.2/go.mod h1:XDscrb+UpyLNeukspraE5xDBCyEK971RNpyhOkwIaMA=
 github.com/piaohao/godis v0.0.18/go.mod h1:LNclKt6NNVQOmjdszBU0DIaT9jfFoUb0ZxKyK46JZ8s=
 github.com/pierrec/lz4 v2.0.5+incompatible/go.mod h1:pdkljMzZIN41W+lC3N2tnIh5sFi+IEE17M5jbnwPHcY=
 github.com/pkg/browser v0.0.0-20180916011732-0a3d74bf9ce4/go.mod h1:4OwLy04Bl9Ef3GJJCoec+30X3LQs/0/m4HFRt/2LUSA=
@@ -397,6 +399,7 @@ go.opencensus.io v0.22.3/go.mod h1:yxeiOL68Rb0Xd1ddK5vPZ/oVn4vY4Ynel7k9FzqtOIw=
 go.opencensus.io v0.22.4/go.mod h1:yxeiOL68Rb0Xd1ddK5vPZ/oVn4vY4Ynel7k9FzqtOIw=
 go.pedidopago.com.br/microservices v1.13.0 h1:XZjdAmcvcnwmnCYPQP2j4nRRxj0ypYs6Vl7kgQnbmTQ=
 go.pedidopago.com.br/microservices v1.13.0/go.mod h1:AqrrB2FLEgikgqypyLuJl6xajdCOz4bAFrinCp9Mmz8=
+go.pedidopago.com.br/microservices v1.13.1/go.mod h1:AqrrB2FLEgikgqypyLuJl6xajdCOz4bAFrinCp9Mmz8=
 go.pedidopago.com.br/microservices v1.13.2 h1:A8xj0EGBiMlEzKEXPn4aiXtvNRkTiJ6hDTrlAmgwP/Y=
 go.pedidopago.com.br/microservices v1.13.2/go.mod h1:AqrrB2FLEgikgqypyLuJl6xajdCOz4bAFrinCp9Mmz8=
 go.pedidopago.com.br/ppms-grpcauth v1.0.0 h1:ASylr/PitCFJn4aGL7ZNYaztg2k4ZBAe8K94QJlXHrU=

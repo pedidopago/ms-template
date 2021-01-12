@@ -344,6 +344,9 @@ func setupInstall() error {
 		if err := replaceStringInFile("protos/"+name+"pb/client/mockclient.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
 			return err
 		}
+		if err := replaceStringInFile("internal/"+name+"/"+name+".go", "XYZService", strings.Title(name)); err != nil {
+			return err
+		}
 
 		// replace module path
 		if err := replaceStringInFile("cmd/"+name+"/main.go", "github.com/pedidopago/ms-template", module); err != nil {
