@@ -364,7 +364,7 @@ func setupInstall() error {
 		}
 
 		// remove self install
-		if err := regexpRemoveStringInFile("magefile.go", regexp.MustCompile(`(?s)// # remove >>.*?// # remove <<`)); err != nil {
+		if err := regexpRemoveStringInFile("magefile.go", regexp.MustCompile(`(?s)// # rem`+`ove >>.*?// #`+` remo`+`ve <<`)); err != nil {
 			return err
 		}
 	}
