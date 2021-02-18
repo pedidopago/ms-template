@@ -314,6 +314,9 @@ func setupInstall() error {
 		if err := replaceStringInFile("protos/"+name+"pb/service.proto", "xyzpb", name+"pb"); err != nil {
 			return err
 		}
+		if err := replaceStringInFile("protos/"+name+"pb/service.proto", "XYZService", name+"Service"); err != nil {
+			return err
+		}
 		if err := replaceStringInFile("protos/"+name+"pb/gen.go", "xyzpb", name+"pb"); err != nil {
 			return err
 		}
