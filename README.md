@@ -2,8 +2,8 @@
 ## Install MAGE
 
 ```sh
-mkdir -p ~/temp
-cd ~/temp
+mkdir -p ~/tmp
+cd ~/tmp
 git clone https://github.com/magefile/mage
 cd mage
 go run bootstrap.go

@@ -144,11 +144,11 @@ func Devbuild() error {
 	nd, _ := ioutil.ReadFile(".name")
 	name := strings.TrimSpace(string(nd))
 	//
-	_ = sh.Run("mkdir", "-p", "temp")
+	_ = sh.Run("mkdir", "-p", "tmp")
 	_, err := sh.Exec(map[string]string{
 		"GOOS":   "linux",
 		"GOARCH": "amd64",
-	}, os.Stdout, os.Stderr, "go", "build", "-o", "temp/service_linux_x64", "cmd/"+name+"/main.go")
+	}, os.Stdout, os.Stderr, "go", "build", "-o", "tmp/service_linux_x64", "cmd/"+name+"/main.go")
 	return err
 }
 
