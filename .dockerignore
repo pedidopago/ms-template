@@ -3,4 +3,4 @@
 .idea
 logs
 *.log
-tmp/
+temp/
