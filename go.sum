@@ -337,6 +337,8 @@ github.com/pedidopago/ms-grpcd v1.1.2/go.mod h1:XDscrb+UpyLNeukspraE5xDBCyEK971R
 github.com/pedidopago/ms-grpcd v1.1.10/go.mod h1:coFDtlAYOyVOl565oLH6enfTIIkxwYfpnU/autmDCxk=
 github.com/pedidopago/ms-grpcd v1.2.0 h1:d/8t3dkpenpIz2/8GgHSwwFWgPBpCd5N19MDGJVBYdY=
 github.com/pedidopago/ms-grpcd v1.2.0/go.mod h1:Kzwxwsgis2bI08hcS4/YVRhmaqyiPvEA5relrGxlb7E=
+github.com/pedidopago/ms-grpcd v1.2.3 h1:+iF/aopkBEMTkBlO2bKo7yVQnFHlb5Cqxt62xl4q+JY=
+github.com/pedidopago/ms-grpcd v1.2.3/go.mod h1:Kzwxwsgis2bI08hcS4/YVRhmaqyiPvEA5relrGxlb7E=
 github.com/piaohao/godis v0.0.18/go.mod h1:LNclKt6NNVQOmjdszBU0DIaT9jfFoUb0ZxKyK46JZ8s=
 github.com/pierrec/lz4 v2.0.5+incompatible/go.mod h1:pdkljMzZIN41W+lC3N2tnIh5sFi+IEE17M5jbnwPHcY=
 github.com/pkg/browser v0.0.0-20180916011732-0a3d74bf9ce4/go.mod h1:4OwLy04Bl9Ef3GJJCoec+30X3LQs/0/m4HFRt/2LUSA=
