@@ -34,7 +34,7 @@ const (
 
 func Migrate(version string) error {
 	loadEnvs()
-	m, err := migrate.New(xs(defaults.String(os.Getenv("DB_FILES"), dbfiles)), xs(defaults.String(os.Getenv("DB_CS"), dbcs)))
+	m, err := migrate.New(xs(defaults.String(dbfiles, os.Getenv("DB_FILES"))), xs(defaults.String(dbcs, os.Getenv("DB_CS"))))
 	if err != nil {
 		return err
 	}
@@ -52,7 +52,7 @@ func Newmigration(name string) error {
 		return errors.New("migration name is required")
 	}
 	//
-	u0, err := url.Parse(xs(defaults.String(os.Getenv("DB_FILES"), dbfiles)))
+	u0, err := url.Parse(xs(defaults.String(dbfiles, os.Getenv("DB_FILES"))))
 	if err != nil {
 		return err
 	}
@@ -158,9 +158,9 @@ func Devdocker() error {
 	nd, _ := ioutil.ReadFile(".name")
 	name := strings.TrimSpace(string(nd))
 	//
-	version := defaults.String(os.Getenv("VERSION"), "dev")
+	version := defaults.String("dev", os.Getenv("VERSION"))
 	tags := []string{version}
-	registry := defaults.String(os.Getenv("DOCKER_REGISTRY"), "registry.docker.pedidopago.com.br/ms/"+name)
+	registry := defaults.String("registry.docker.pedidopago.com.br/ms/"+name, os.Getenv("DOCKER_REGISTRY"))
 
 	//
 	if v := os.Getenv("DOCKER_TAGS"); v != "" {
@@ -192,7 +192,7 @@ func Devdeploy() error {
 	nd, _ := ioutil.ReadFile(".name")
 	name := strings.TrimSpace(string(nd))
 	//
-	registry := defaults.String(os.Getenv("DOCKER_REGISTRY"), "registry.docker.pedidopago.com.br/ms/"+name)
+	registry := defaults.String("registry.docker.pedidopago.com.br/ms/"+name, os.Getenv("DOCKER_REGISTRY"))
 	return sh.Run("docker", "push", registry)
 }
 
