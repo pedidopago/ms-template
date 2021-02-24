@@ -320,6 +320,18 @@ func setupInstall() error {
 		if err := replaceStringInFile("protos/"+name+"pb/gen.go", "xyzpb", name+"pb"); err != nil {
 			return err
 		}
+		if err := replaceStringInFile("protos/"+name+"pb/helpers.go", "xyzpb", name+"pb"); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/helpers.go", "xyzservice", name); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/helpers.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("protos/"+name+"pb/helpers.go", "XYZServiceServer", strings.Title(name)+"ServiceServer"); err != nil {
+			return err
+		}
 		if err := replaceStringInFile("protos/"+name+"pb/client/client.go", "github.com/pedidopago/ms-template", module); err != nil {
 			return err
 		}
