@@ -14,7 +14,7 @@ require (
 	github.com/pedidopago/ms-grpcd v1.2.3
 	github.com/rakyll/statik v0.1.7
 	github.com/rs/zerolog v1.19.0
-	go.pedidopago.com.br/microservices v1.15.0
+	go.pedidopago.com.br/microservices v1.16.14
 	google.golang.org/grpc v1.31.0
 	google.golang.org/protobuf v1.25.0
 )
