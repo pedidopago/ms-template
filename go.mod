@@ -11,10 +11,10 @@ require (
 	github.com/magefile/mage v1.11.0
 	github.com/mozillazg/go-slugify v0.2.0
 	github.com/mozillazg/go-unidecode v0.1.1 // indirect
-	github.com/pedidopago/ms-grpcd v1.2.3
+	github.com/pedidopago/ms-grpcd v1.3.4
 	github.com/rakyll/statik v0.1.7
 	github.com/rs/zerolog v1.19.0
-	go.pedidopago.com.br/microservices v1.16.14
+	go.pedidopago.com.br/microservices v1.16.16
 	google.golang.org/grpc v1.31.0
 	google.golang.org/protobuf v1.25.0
 )

@@ -211,7 +211,7 @@ func Run() {
 	//
 
 	envs := make(map[string]string)
-	envs["DB_CS"] = dbcs
+	envs["DBCS"] = dbcs
 
 	if os.Getenv("GRPCD") == "" {
 		envs["GRPCD"] = "dev"
@@ -221,6 +221,9 @@ func Run() {
 	}
 	if os.Getenv("LISTEN") == "" {
 		envs["LISTEN"] = ":15055"
+	}
+	if os.Getenv("AUTOMIGRATE") == "" {
+		envs["AUTOMIGRATE"] = "1"
 	}
 
 	//

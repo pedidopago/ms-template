@@ -346,6 +346,8 @@ github.com/pedidopago/ms-grpcd v1.2.0 h1:d/8t3dkpenpIz2/8GgHSwwFWgPBpCd5N19MDGJV
 github.com/pedidopago/ms-grpcd v1.2.0/go.mod h1:Kzwxwsgis2bI08hcS4/YVRhmaqyiPvEA5relrGxlb7E=
 github.com/pedidopago/ms-grpcd v1.2.3 h1:+iF/aopkBEMTkBlO2bKo7yVQnFHlb5Cqxt62xl4q+JY=
 github.com/pedidopago/ms-grpcd v1.2.3/go.mod h1:Kzwxwsgis2bI08hcS4/YVRhmaqyiPvEA5relrGxlb7E=
+github.com/pedidopago/ms-grpcd v1.3.4 h1:K2rfiEIakZoWhzIKha3JeslCoAYnqKw5T84nfBx0lh8=
+github.com/pedidopago/ms-grpcd v1.3.4/go.mod h1:TnhjpiHw1hFNqEMf+cvubu3A0IscEQ43z2AgfBBuOyQ=
 github.com/piaohao/godis v0.0.18/go.mod h1:LNclKt6NNVQOmjdszBU0DIaT9jfFoUb0ZxKyK46JZ8s=
 github.com/pierrec/lz4 v2.0.5+incompatible/go.mod h1:pdkljMzZIN41W+lC3N2tnIh5sFi+IEE17M5jbnwPHcY=
 github.com/pkg/browser v0.0.0-20180916011732-0a3d74bf9ce4/go.mod h1:4OwLy04Bl9Ef3GJJCoec+30X3LQs/0/m4HFRt/2LUSA=
@@ -450,6 +452,7 @@ go.pedidopago.com.br/microservices v1.15.0 h1:i35ljwFH4OfD9tCysEeLGImu1VWrox0aee
 go.pedidopago.com.br/microservices v1.15.0/go.mod h1:w2yko8vHRmWgOvBZNKwia+0m10OcO2qlbY2cvKicaHo=
 go.pedidopago.com.br/microservices v1.16.14 h1:VcU6FCnf7CRPlvsiASxR9w2JMsE8bOaIl0Fi9IxyXtE=
 go.pedidopago.com.br/microservices v1.16.14/go.mod h1:4pPHpkSnoWWqDIU9jwO1COBovgZXsQtZ1CTjVig9ryo=
+go.pedidopago.com.br/microservices v1.16.16/go.mod h1:4pPHpkSnoWWqDIU9jwO1COBovgZXsQtZ1CTjVig9ryo=
 go.pedidopago.com.br/ppms-grpcauth v1.0.0 h1:ASylr/PitCFJn4aGL7ZNYaztg2k4ZBAe8K94QJlXHrU=
 go.pedidopago.com.br/ppms-grpcauth v1.0.0/go.mod h1:1EV5o4jKT4eU79qp+TnVsVh4dUHDmWKAcNZUx3KaADw=
 go.uber.org/atomic v1.3.2/go.mod h1:gD2HeocX3+yG+ygLZcrzQJaqmWj9AIm7n08wl/qW/PE=
