@@ -1,6 +1,6 @@
 module github.com/pedidopago/ms-template
 
-go 1.14
+go 1.16
 
 require (
 	github.com/go-redis/redis/v8 v8.6.0

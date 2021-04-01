@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  xyzservice:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+      # args:
+      #   name: value
+    environment:
+      - DB_CS=root:123456789@tcp(mariadb:3306)/ms_xyzservice?parseTime=true
+      - DEV_DBCS_CREATE=root:123456789@tcp(mariadb:3306)
+      - DEV_DBCS_DB=ms_xyzservice
+      - GRPC_DISABLE_TLS=1
+      - GRPCD=http://grpcd:4000
+    ports:
+      - 15055:15055
+    depends_on:
+      - grpcd
+      - mariadb
+      - redis
+  grpcd:
+    image: registry.docker.pedidopago.com.br/ms/grpcd:latest
+    environment:
+      - LISTEN_ADDR=grpcd:4000
+    # volumes:
+    #   - /sandbox/grpcd:/tmp/grpcd
+  redis:
+    image: redis:6
+  mariadb:
+    image: mariadb:10.5
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456789
+    ports:
+      - 3366:3306
+    # volumes:
+    #     - /tmp/xyzservice/mysql:/var/lib/mysql
+  # exampledependency:
+  #   image: registry.docker.pedidopago.com.br/ms/example:latest
+  #   environment:
+  #    - DB_CS=testuser:123456789@tcp(mariadb:3306)/ms_example?parseTime=true
+  #    - DEV_DBCS_CREATE=testuser:123456789@tcp(mariadb:3306)
+  #    - DEV_DBCS_DB=ms_example

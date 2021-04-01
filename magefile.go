@@ -200,6 +200,38 @@ func Gen() error {
 	return sh.Run("go", "generate", "./...")
 }
 
+func Run() {
+	_ = godotenv.Load(".env")
+	_ = godotenv.Load("run.env")
+	//
+	nd, _ := ioutil.ReadFile(".name")
+	name := strings.TrimSpace(string(nd))
+	//
+	dbcs := defaults.String(dbcs[8:], os.Getenv("DEV_DB_CS"), os.Getenv("DB_CS"), os.Getenv("DBCS"))
+	//
+
+	envs := make(map[string]string)
+	envs["DB_CS"] = dbcs
+
+	if os.Getenv("GRPCD") == "" {
+		envs["GRPCD"] = "dev"
+	}
+	if os.Getenv("GRPC_DISABLE_TLS") == "" {
+		envs["GRPC_DISABLE_TLS"] = "1"
+	}
+
+	//
+	_ = sh.RunWithV(envs, "go", "run", fmt.Sprintf("cmd/%s/main.go", name))
+}
+
+func Composerun() {
+	if err := Devbuild(); err != nil {
+		println("Composerun::Devbuild: " + err.Error())
+		os.Exit(1)
+	}
+	_ = sh.RunV("docker-compose", "up")
+}
+
 func Migrationtest(dbcs, mpath string) error {
 	// loadEnvs()
 	m, err := migrate.New(mpath, dbcs)
@@ -360,6 +392,12 @@ func setupInstall() error {
 			return err
 		}
 		if err := replaceStringInFile("internal/"+name+"/"+name+".go", "XYZService", strings.Title(name)); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("README.md", "xyzservice", name); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("docker-compose.yml", "xyzservice", name); err != nil {
 			return err
 		}
 
