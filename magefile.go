@@ -219,6 +219,9 @@ func Run() {
 	if os.Getenv("GRPC_DISABLE_TLS") == "" {
 		envs["GRPC_DISABLE_TLS"] = "1"
 	}
+	if os.Getenv("LISTEN") == "" {
+		envs["LISTEN"] = ":15055"
+	}
 
 	//
 	_ = sh.RunWithV(envs, "go", "run", fmt.Sprintf("cmd/%s/main.go", name))
