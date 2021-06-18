@@ -1,9 +1,10 @@
 package client
 
 import (
+	"sync"
+
 	"github.com/pedidopago/ms-template/protos/xyzpb"
 	"github.com/pedidopago/ms-template/protos/xyzpb/mocks"
-	"sync"
 )
 
 type MockClient struct {
