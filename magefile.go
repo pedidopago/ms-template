@@ -9,19 +9,22 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"regexp"
+	"runtime"
+	"strings"
+
 	migrate "github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/joho/godotenv"
 	"github.com/magefile/mage/sh"
 	"github.com/mozillazg/go-slugify"
+	"github.com/pedidopago/magelib"
+	_ "github.com/pedidopago/magelib/autoload"
 	"go.pedidopago.com.br/microservices/defaults"
 	"go.pedidopago.com.br/microservices/xcmd"
-	"io/ioutil"
-	"os"
-	"regexp"
-	"runtime"
-	"strings"
 )
 
 const (
