@@ -3,8 +3,8 @@ package client
 import (
 	"sync"
 
-	"github.com/pedidopago/ms-template/protos/xyzpb"
-	"github.com/pedidopago/ms-template/protos/xyzpb/mocks"
+	xyzv1 "github.com/pedidopago/ms-template/gen/proto/go/pedidopago/xyz/v1"
+	"github.com/pedidopago/ms-template/gen/proto/go/pedidopago/xyz/v1/mocks"
 )
 
 type MockClient struct {
@@ -12,7 +12,7 @@ type MockClient struct {
 	mockcl *mocks.XYZServiceClient
 }
 
-func (cl *MockClient) Service() (xyzpb.XYZServiceClient, error) {
+func (cl *MockClient) Service() (xyzv1.XYZServiceClient, error) {
 	cl.l.Lock()
 	defer cl.l.Unlock()
 

@@ -1,3 +1,4 @@
+//go:build mage
 // +build mage
 
 package main
@@ -8,15 +9,6 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"io/ioutil"
-	"net/url"
-	"os"
-	"path"
-	"regexp"
-	"runtime"
-	"strings"
-	"time"
-
 	migrate "github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
@@ -25,6 +17,11 @@ import (
 	"github.com/mozillazg/go-slugify"
 	"go.pedidopago.com.br/microservices/defaults"
 	"go.pedidopago.com.br/microservices/xcmd"
+	"io/ioutil"
+	"os"
+	"regexp"
+	"runtime"
+	"strings"
 )
 
 const (
@@ -32,56 +29,16 @@ const (
 	dbcs    = "mysql://testuser:123456789@tcp(localhost)/ms_xyz?parseTime=true"
 )
 
-func Migrate(version string) error {
-	loadEnvs()
-	m, err := migrate.New(xs(defaults.String(dbfiles, os.Getenv("DB_FILES"))), xs(defaults.String(dbcs, os.Getenv("DB_CS"))))
-	if err != nil {
-		return err
-	}
-	if version == "" || version == "up" {
-		return m.Up()
+func Clean() {
+	magelib.Clean()
+}
 
-	}
-	return nil
+func Migrate(version string) error {
+	return magelib.Migrate(version)
 }
 
 func Newmigration(name string) error {
-	loadEnvs()
-	//
-	if name == "" {
-		return errors.New("migration name is required")
-	}
-	//
-	u0, err := url.Parse(xs(defaults.String(dbfiles, os.Getenv("DB_FILES"))))
-	if err != nil {
-		return err
-	}
-	t0 := time.Now()
-	mformat := "%d_%s.%s.sql"
-	//
-	migname := slugify.Slugify(name)
-	upname := fmt.Sprintf(mformat, t0.UnixNano(), migname, "up")
-	downname := fmt.Sprintf(mformat, t0.UnixNano(), migname, "down")
-	//
-	f, err := os.Create(path.Join(u0.Path, upname))
-	if err != nil {
-		return fmt.Errorf("unable to create %s %w", upname, err)
-	}
-	f.Close()
-	//
-	f, err = os.Create(path.Join(u0.Path, downname))
-	if err != nil {
-		return fmt.Errorf("unable to create %s %w", downname, err)
-	}
-	f.Close()
-	//
-	println("created " + upname)
-	println("created " + downname)
-	if v := os.Getenv("OPEN_CMD"); v != "" {
-		xcmd.Run(v, path.Join(u0.Path, upname))
-		xcmd.Run(v, path.Join(u0.Path, downname))
-	}
-	return nil
+	return magelib.Newmigration(name)
 }
 
 func Setup() error {
@@ -152,52 +109,16 @@ func Devbuild() error {
 	return err
 }
 
-func Devdocker() error {
-	loadEnvs()
-	//
-	nd, _ := ioutil.ReadFile(".name")
-	name := strings.TrimSpace(string(nd))
-	//
-	version := defaults.String("dev", os.Getenv("VERSION"))
-	tags := []string{version}
-	registry := defaults.String("registry.docker.pedidopago.com.br/ms/"+name, os.Getenv("DOCKER_REGISTRY"))
-
-	//
-	if v := os.Getenv("DOCKER_TAGS"); v != "" {
-		ts := strings.Split(v, ",")
-		tags = append(tags, ts...)
-	}
-	if err := Devbuild(); err != nil {
-		return err
-	}
-
-	// docker build --build-arg VERSION=${VERSION} -t ${REGISTRY}:${VERSION} .
-	args := []string{
-		"build",
-		"--build-arg",
-		"VERSION=" + version,
-	}
-	for _, tag := range tags {
-		args = append(args, "-t", registry+":"+tag)
-	}
-	args = append(args, "-f", "dev.Dockerfile", ".")
-	return sh.Run("docker", args...)
+func Docker() error {
+	return magelib.Docker()
 }
 
-func Devdeploy() error {
-	if err := Devdocker(); err != nil {
-		return err
-	}
-	//
-	nd, _ := ioutil.ReadFile(".name")
-	name := strings.TrimSpace(string(nd))
-	//
-	registry := defaults.String("registry.docker.pedidopago.com.br/ms/"+name, os.Getenv("DOCKER_REGISTRY"))
-	return sh.Run("docker", "push", registry)
+func DockerPush() error {
+	return magelib.DockerPush()
 }
 
-func Gen() error {
-	return sh.Run("go", "generate", "./...")
+func Generate() error {
+	return magelib.Generate()
 }
 
 func Run() {
@@ -228,6 +149,14 @@ func Run() {
 
 	//
 	_ = sh.RunWithV(envs, "go", "run", fmt.Sprintf("cmd/%s/main.go", name))
+}
+
+func RunAllTests() error {
+	return magelib.RunAllTests()
+}
+
+func RunTestCoverage() error {
+	return magelib.RunTestCoverage()
 }
 
 func Composerun() {
@@ -323,7 +252,7 @@ func setupInstall() error {
 		if err := sh.Run("mv", "internal/xyzservice", "internal/"+name); err != nil {
 			return err
 		}
-		if err := sh.Run("mv", "protos/xyzpb", "protos/"+name+"pb"); err != nil {
+		if err := sh.Run("mv", "proto/pedidopago/xyz", "proto/pedidopago/"+name); err != nil {
 			return err
 		}
 		// replace strings
@@ -347,54 +276,55 @@ func setupInstall() error {
 			return err
 		}
 
-		_ = sh.Run("rm", "protos/"+name+"pb"+"/service.pb.go")
+		_ = sh.Run("rm", "gen/proto/go/pedidopago/"+name+"/v1"+"/xyz_service.pb.go")
+		_ = sh.Run("rm", "gen/proto/go/pedidopago/"+name+"/v1"+"/xyz_service_grpc.pb.go")
 
-		if err := replaceStringInFile("protos/"+name+"pb/service.proto", "xyzpb", name+"pb"); err != nil {
+		if err := replaceStringInFile("proto/pedidopago/"+name+"v1/xyz_service.proto", "xyz", name); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/service.proto", "XYZService", name+"Service"); err != nil {
+		if err := replaceStringInFile("proto/pedidopago/"+name+"v1/xyz_service.proto", "XYZService", name+"Service"); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/gen.go", "xyzpb", name+"pb"); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/gen.go", "xyz", name); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/helpers.go", "xyzpb", name+"pb"); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/helpers.go", "xyzpb", name+"pb"); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/helpers.go", "xyzservice", name); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/helpers.go", "xyzservice", name); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/helpers.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/helpers.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/helpers.go", "XYZServiceServer", strings.Title(name)+"ServiceServer"); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/helpers.go", "XYZServiceServer", strings.Title(name)+"ServiceServer"); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/client/client.go", "github.com/pedidopago/ms-template", module); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/client.go", "github.com/pedidopago/ms-template", module); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/client/grpcdclient.go", "github.com/pedidopago/ms-template", module); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/grpcdclient.go", "github.com/pedidopago/ms-template", module); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/client/mockclient.go", "github.com/pedidopago/ms-template", module); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/mockclient.go", "github.com/pedidopago/ms-template", module); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/client/client.go", "xyzpb", name+"pb"); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/client.go", "xyzv1", name+"v1"); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/client/grpcdclient.go", "xyzpb", name+"pb"); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/grpcdclient.go", "xyzv1", name+"v1"); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/client/mockclient.go", "xyzpb", name+"pb"); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/mockclient.go", "xyzv1", name+"v1"); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/client/client.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/client.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/client/grpcdclient.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/grpcdclient.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/client/mockclient.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/mockclient.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
 			return err
 		}
 		if err := replaceStringInFile("internal/"+name+"/"+name+".go", "XYZService", strings.Title(name)); err != nil {
@@ -414,7 +344,7 @@ func setupInstall() error {
 		if err := replaceStringInFile("go.mod", "github.com/pedidopago/ms-template", module); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("protos/"+name+"pb/service.proto", "github.com/pedidopago/ms-template", module); err != nil {
+		if err := replaceStringInFile("proto/pedidopago/"+name+"/v1/"+name+"_service.proto", "github.com/pedidopago/ms-template", module); err != nil {
 			return err
 		}
 

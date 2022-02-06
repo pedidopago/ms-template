@@ -4,8 +4,8 @@ import (
 	"sync"
 
 	"github.com/pedidopago/ms-grpcd/pkg/grpcd"
+	xyzv1 "github.com/pedidopago/ms-template/gen/proto/go/pedidopago/xyz/v1"
 	"github.com/pedidopago/ms-template/internal/meta"
-	"github.com/pedidopago/ms-template/protos/xyzpb"
 	"google.golang.org/grpc"
 )
 
@@ -17,7 +17,7 @@ type LiveClient struct {
 	l      sync.Mutex
 }
 
-func (cl *LiveClient) Service() (xyzpb.XYZServiceClient, error) {
+func (cl *LiveClient) Service() (xyzv1.XYZServiceClient, error) {
 	cl.l.Lock()
 	defer cl.l.Unlock()
 
@@ -36,5 +36,5 @@ func (cl *LiveClient) Service() (xyzpb.XYZServiceClient, error) {
 		}
 	}
 
-	return xyzpb.NewXYZServiceClient(cl.clconn), nil
+	return xyzv1.NewXYZServiceClient(cl.clconn), nil
 }
