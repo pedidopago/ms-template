@@ -35,8 +35,8 @@ func (s *Service) Start(c app.ServiceContext) error {
 	}
 
 	// FIXME: lines below
-	// xyzpb.RegisterXYZServiceServer(c.Server(), s)
-	// go xyzpb.ServerPublish(c, s.cfg)
+	// xyzv1.RegisterXYZServiceServer(c.Server(), s)
+	// go xyzv1.ServerPublish(c, s.cfg)
 
 	// comment below this if not using grpc
 	closefn, err := app.Listen(c, c.Config().Host()+":"+strconv.Itoa(c.Config().Port()), c.Server())
