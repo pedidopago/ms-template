@@ -371,6 +371,11 @@ func setupInstall() error {
 			return err
 		}
 
+		// TODO: replace mocks names
+		if err := sh.Run("rm", "-r", "gen/proto/go/pedidopago/"+name+"/v1/mocks"); err != nil {
+			return err
+		}
+
 		// remove self install
 		if err := regexpRemoveStringInFile("magefile.go", regexp.MustCompile(`(?s)// # rem`+`ove >>.*?// #`+` remo`+`ve <<`)); err != nil {
 			return err
