@@ -258,6 +258,13 @@ func setupInstall() error {
 		if err := sh.Run("mv", "proto/pedidopago/xyz", "proto/pedidopago/"+name); err != nil {
 			return err
 		}
+		if err := sh.Run("mv", "gen/proto/go/pedidopago/xyz", "gen/proto/go/pedidopago/"+name); err != nil {
+			return err
+		}
+		// rename files
+		if err := sh.Run("mv", "proto/pedidopago/"+name+"/v1/"+"xyz_service.proto", "proto/pedidopago/"+name+"/v1/"+name+"_service.proto"); err != nil {
+			return err
+		}
 		// replace strings
 		if err := replaceStringInFile("cmd/"+name+"/main.go", "xyzservice", name); err != nil {
 			return err
@@ -282,16 +289,16 @@ func setupInstall() error {
 		_ = sh.Run("rm", "gen/proto/go/pedidopago/"+name+"/v1"+"/xyz_service.pb.go")
 		_ = sh.Run("rm", "gen/proto/go/pedidopago/"+name+"/v1"+"/xyz_service_grpc.pb.go")
 
-		if err := replaceStringInFile("proto/pedidopago/"+name+"v1/xyz_service.proto", "xyz", name); err != nil {
+		if err := replaceStringInFile("proto/pedidopago/"+name+"/v1/"+name+"_service.proto", "xyz", name); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("proto/pedidopago/"+name+"v1/xyz_service.proto", "XYZService", name+"Service"); err != nil {
+		if err := replaceStringInFile("proto/pedidopago/"+name+"/v1/"+name+"_service.proto", "XYZService", name+"Service"); err != nil {
 			return err
 		}
 		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/gen.go", "xyz", name); err != nil {
 			return err
 		}
-		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/helpers.go", "xyzpb", name+"pb"); err != nil {
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/helpers.go", "xyz", name); err != nil {
 			return err
 		}
 		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/helpers.go", "xyzservice", name); err != nil {
@@ -319,6 +326,15 @@ func setupInstall() error {
 			return err
 		}
 		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/mockclient.go", "xyzv1", name+"v1"); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/client.go", "/xyz/v1", "/"+name+"/v1"); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/grpcdclient.go", "/xyz/v1", "/"+name+"/v1"); err != nil {
+			return err
+		}
+		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/mockclient.go", "/xyz/v1", "/"+name+"/v1"); err != nil {
 			return err
 		}
 		if err := replaceStringInFile("gen/proto/go/pedidopago/"+name+"/v1/client/client.go", "XYZServiceClient", strings.Title(name)+"ServiceClient"); err != nil {
