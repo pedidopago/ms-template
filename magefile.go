@@ -288,6 +288,9 @@ func setupInstall() error {
 
 		_ = sh.Run("rm", "gen/proto/go/pedidopago/"+name+"/v1"+"/xyz_service.pb.go")
 		_ = sh.Run("rm", "gen/proto/go/pedidopago/"+name+"/v1"+"/xyz_service_grpc.pb.go")
+		if err := sh.Run("rm", "-r", "gen/openapiv2"); err != nil {
+			return err
+		}
 
 		if err := replaceStringInFile("proto/pedidopago/"+name+"/v1/"+name+"_service.proto", "xyz", name); err != nil {
 			return err
