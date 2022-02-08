@@ -21,17 +21,17 @@ import (
 	"github.com/volatiletech/strmangle"
 )
 
-// Exampletable is an object representing the database table.
-type Exampletable struct {
+// Example is an object representing the database table.
+type Example struct {
 	ID        uint      `boil:"id" json:"id" toml:"id" yaml:"id"`
 	Title     string    `boil:"title" json:"title" toml:"title" yaml:"title"`
 	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
 
-	R *exampletableR `boil:"-" json:"-" toml:"-" yaml:"-"`
-	L exampletableL  `boil:"-" json:"-" toml:"-" yaml:"-"`
+	R *exampleR `boil:"-" json:"-" toml:"-" yaml:"-"`
+	L exampleL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
-var ExampletableColumns = struct {
+var ExampleColumns = struct {
 	ID        string
 	Title     string
 	CreatedAt string
@@ -41,14 +41,14 @@ var ExampletableColumns = struct {
 	CreatedAt: "created_at",
 }
 
-var ExampletableTableColumns = struct {
+var ExampleTableColumns = struct {
 	ID        string
 	Title     string
 	CreatedAt string
 }{
-	ID:        "exampletable.id",
-	Title:     "exampletable.title",
-	CreatedAt: "exampletable.created_at",
+	ID:        "example.id",
+	Title:     "example.title",
+	CreatedAt: "example.created_at",
 }
 
 // Generated where
@@ -120,63 +120,63 @@ func (w whereHelpertime_Time) GTE(x time.Time) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GTE, x)
 }
 
-var ExampletableWhere = struct {
+var ExampleWhere = struct {
 	ID        whereHelperuint
 	Title     whereHelperstring
 	CreatedAt whereHelpertime_Time
 }{
-	ID:        whereHelperuint{field: "`exampletable`.`id`"},
-	Title:     whereHelperstring{field: "`exampletable`.`title`"},
-	CreatedAt: whereHelpertime_Time{field: "`exampletable`.`created_at`"},
+	ID:        whereHelperuint{field: "`example`.`id`"},
+	Title:     whereHelperstring{field: "`example`.`title`"},
+	CreatedAt: whereHelpertime_Time{field: "`example`.`created_at`"},
 }
 
-// ExampletableRels is where relationship names are stored.
-var ExampletableRels = struct {
+// ExampleRels is where relationship names are stored.
+var ExampleRels = struct {
 }{}
 
-// exampletableR is where relationships are stored.
-type exampletableR struct {
+// exampleR is where relationships are stored.
+type exampleR struct {
 }
 
 // NewStruct creates a new relationship struct
-func (*exampletableR) NewStruct() *exampletableR {
-	return &exampletableR{}
+func (*exampleR) NewStruct() *exampleR {
+	return &exampleR{}
 }
 
-// exampletableL is where Load methods for each relationship are stored.
-type exampletableL struct{}
+// exampleL is where Load methods for each relationship are stored.
+type exampleL struct{}
 
 var (
-	exampletableAllColumns            = []string{"id", "title", "created_at"}
-	exampletableColumnsWithoutDefault = []string{"title"}
-	exampletableColumnsWithDefault    = []string{"id", "created_at"}
-	exampletablePrimaryKeyColumns     = []string{"id"}
-	exampletableGeneratedColumns      = []string{}
+	exampleAllColumns            = []string{"id", "title", "created_at"}
+	exampleColumnsWithoutDefault = []string{"title"}
+	exampleColumnsWithDefault    = []string{"id", "created_at"}
+	examplePrimaryKeyColumns     = []string{"id"}
+	exampleGeneratedColumns      = []string{}
 )
 
 type (
-	// ExampletableSlice is an alias for a slice of pointers to Exampletable.
-	// This should almost always be used instead of []Exampletable.
-	ExampletableSlice []*Exampletable
-	// ExampletableHook is the signature for custom Exampletable hook methods
-	ExampletableHook func(context.Context, boil.ContextExecutor, *Exampletable) error
+	// ExampleSlice is an alias for a slice of pointers to Example.
+	// This should almost always be used instead of []Example.
+	ExampleSlice []*Example
+	// ExampleHook is the signature for custom Example hook methods
+	ExampleHook func(context.Context, boil.ContextExecutor, *Example) error
 
-	exampletableQuery struct {
+	exampleQuery struct {
 		*queries.Query
 	}
 )
 
 // Cache for insert, update and upsert
 var (
-	exampletableType                 = reflect.TypeOf(&Exampletable{})
-	exampletableMapping              = queries.MakeStructMapping(exampletableType)
-	exampletablePrimaryKeyMapping, _ = queries.BindMapping(exampletableType, exampletableMapping, exampletablePrimaryKeyColumns)
-	exampletableInsertCacheMut       sync.RWMutex
-	exampletableInsertCache          = make(map[string]insertCache)
-	exampletableUpdateCacheMut       sync.RWMutex
-	exampletableUpdateCache          = make(map[string]updateCache)
-	exampletableUpsertCacheMut       sync.RWMutex
-	exampletableUpsertCache          = make(map[string]insertCache)
+	exampleType                 = reflect.TypeOf(&Example{})
+	exampleMapping              = queries.MakeStructMapping(exampleType)
+	examplePrimaryKeyMapping, _ = queries.BindMapping(exampleType, exampleMapping, examplePrimaryKeyColumns)
+	exampleInsertCacheMut       sync.RWMutex
+	exampleInsertCache          = make(map[string]insertCache)
+	exampleUpdateCacheMut       sync.RWMutex
+	exampleUpdateCache          = make(map[string]updateCache)
+	exampleUpsertCacheMut       sync.RWMutex
+	exampleUpsertCache          = make(map[string]insertCache)
 )
 
 var (
@@ -187,27 +187,27 @@ var (
 	_ = qmhelper.Where
 )
 
-var exampletableAfterSelectHooks []ExampletableHook
+var exampleAfterSelectHooks []ExampleHook
 
-var exampletableBeforeInsertHooks []ExampletableHook
-var exampletableAfterInsertHooks []ExampletableHook
+var exampleBeforeInsertHooks []ExampleHook
+var exampleAfterInsertHooks []ExampleHook
 
-var exampletableBeforeUpdateHooks []ExampletableHook
-var exampletableAfterUpdateHooks []ExampletableHook
+var exampleBeforeUpdateHooks []ExampleHook
+var exampleAfterUpdateHooks []ExampleHook
 
-var exampletableBeforeDeleteHooks []ExampletableHook
-var exampletableAfterDeleteHooks []ExampletableHook
+var exampleBeforeDeleteHooks []ExampleHook
+var exampleAfterDeleteHooks []ExampleHook
 
-var exampletableBeforeUpsertHooks []ExampletableHook
-var exampletableAfterUpsertHooks []ExampletableHook
+var exampleBeforeUpsertHooks []ExampleHook
+var exampleAfterUpsertHooks []ExampleHook
 
 // doAfterSelectHooks executes all "after Select" hooks.
-func (o *Exampletable) doAfterSelectHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Example) doAfterSelectHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range exampletableAfterSelectHooks {
+	for _, hook := range exampleAfterSelectHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -217,12 +217,12 @@ func (o *Exampletable) doAfterSelectHooks(ctx context.Context, exec boil.Context
 }
 
 // doBeforeInsertHooks executes all "before insert" hooks.
-func (o *Exampletable) doBeforeInsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Example) doBeforeInsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range exampletableBeforeInsertHooks {
+	for _, hook := range exampleBeforeInsertHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -232,12 +232,12 @@ func (o *Exampletable) doBeforeInsertHooks(ctx context.Context, exec boil.Contex
 }
 
 // doAfterInsertHooks executes all "after Insert" hooks.
-func (o *Exampletable) doAfterInsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Example) doAfterInsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range exampletableAfterInsertHooks {
+	for _, hook := range exampleAfterInsertHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -247,12 +247,12 @@ func (o *Exampletable) doAfterInsertHooks(ctx context.Context, exec boil.Context
 }
 
 // doBeforeUpdateHooks executes all "before Update" hooks.
-func (o *Exampletable) doBeforeUpdateHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Example) doBeforeUpdateHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range exampletableBeforeUpdateHooks {
+	for _, hook := range exampleBeforeUpdateHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -262,12 +262,12 @@ func (o *Exampletable) doBeforeUpdateHooks(ctx context.Context, exec boil.Contex
 }
 
 // doAfterUpdateHooks executes all "after Update" hooks.
-func (o *Exampletable) doAfterUpdateHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Example) doAfterUpdateHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range exampletableAfterUpdateHooks {
+	for _, hook := range exampleAfterUpdateHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -277,12 +277,12 @@ func (o *Exampletable) doAfterUpdateHooks(ctx context.Context, exec boil.Context
 }
 
 // doBeforeDeleteHooks executes all "before Delete" hooks.
-func (o *Exampletable) doBeforeDeleteHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Example) doBeforeDeleteHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range exampletableBeforeDeleteHooks {
+	for _, hook := range exampleBeforeDeleteHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -292,12 +292,12 @@ func (o *Exampletable) doBeforeDeleteHooks(ctx context.Context, exec boil.Contex
 }
 
 // doAfterDeleteHooks executes all "after Delete" hooks.
-func (o *Exampletable) doAfterDeleteHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Example) doAfterDeleteHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range exampletableAfterDeleteHooks {
+	for _, hook := range exampleAfterDeleteHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -307,12 +307,12 @@ func (o *Exampletable) doAfterDeleteHooks(ctx context.Context, exec boil.Context
 }
 
 // doBeforeUpsertHooks executes all "before Upsert" hooks.
-func (o *Exampletable) doBeforeUpsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Example) doBeforeUpsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range exampletableBeforeUpsertHooks {
+	for _, hook := range exampleBeforeUpsertHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -322,12 +322,12 @@ func (o *Exampletable) doBeforeUpsertHooks(ctx context.Context, exec boil.Contex
 }
 
 // doAfterUpsertHooks executes all "after Upsert" hooks.
-func (o *Exampletable) doAfterUpsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
+func (o *Example) doAfterUpsertHooks(ctx context.Context, exec boil.ContextExecutor) (err error) {
 	if boil.HooksAreSkipped(ctx) {
 		return nil
 	}
 
-	for _, hook := range exampletableAfterUpsertHooks {
+	for _, hook := range exampleAfterUpsertHooks {
 		if err := hook(ctx, exec, o); err != nil {
 			return err
 		}
@@ -336,33 +336,33 @@ func (o *Exampletable) doAfterUpsertHooks(ctx context.Context, exec boil.Context
 	return nil
 }
 
-// AddExampletableHook registers your hook function for all future operations.
-func AddExampletableHook(hookPoint boil.HookPoint, exampletableHook ExampletableHook) {
+// AddExampleHook registers your hook function for all future operations.
+func AddExampleHook(hookPoint boil.HookPoint, exampleHook ExampleHook) {
 	switch hookPoint {
 	case boil.AfterSelectHook:
-		exampletableAfterSelectHooks = append(exampletableAfterSelectHooks, exampletableHook)
+		exampleAfterSelectHooks = append(exampleAfterSelectHooks, exampleHook)
 	case boil.BeforeInsertHook:
-		exampletableBeforeInsertHooks = append(exampletableBeforeInsertHooks, exampletableHook)
+		exampleBeforeInsertHooks = append(exampleBeforeInsertHooks, exampleHook)
 	case boil.AfterInsertHook:
-		exampletableAfterInsertHooks = append(exampletableAfterInsertHooks, exampletableHook)
+		exampleAfterInsertHooks = append(exampleAfterInsertHooks, exampleHook)
 	case boil.BeforeUpdateHook:
-		exampletableBeforeUpdateHooks = append(exampletableBeforeUpdateHooks, exampletableHook)
+		exampleBeforeUpdateHooks = append(exampleBeforeUpdateHooks, exampleHook)
 	case boil.AfterUpdateHook:
-		exampletableAfterUpdateHooks = append(exampletableAfterUpdateHooks, exampletableHook)
+		exampleAfterUpdateHooks = append(exampleAfterUpdateHooks, exampleHook)
 	case boil.BeforeDeleteHook:
-		exampletableBeforeDeleteHooks = append(exampletableBeforeDeleteHooks, exampletableHook)
+		exampleBeforeDeleteHooks = append(exampleBeforeDeleteHooks, exampleHook)
 	case boil.AfterDeleteHook:
-		exampletableAfterDeleteHooks = append(exampletableAfterDeleteHooks, exampletableHook)
+		exampleAfterDeleteHooks = append(exampleAfterDeleteHooks, exampleHook)
 	case boil.BeforeUpsertHook:
-		exampletableBeforeUpsertHooks = append(exampletableBeforeUpsertHooks, exampletableHook)
+		exampleBeforeUpsertHooks = append(exampleBeforeUpsertHooks, exampleHook)
 	case boil.AfterUpsertHook:
-		exampletableAfterUpsertHooks = append(exampletableAfterUpsertHooks, exampletableHook)
+		exampleAfterUpsertHooks = append(exampleAfterUpsertHooks, exampleHook)
 	}
 }
 
-// One returns a single exampletable record from the query.
-func (q exampletableQuery) One(ctx context.Context, exec boil.ContextExecutor) (*Exampletable, error) {
-	o := &Exampletable{}
+// One returns a single example record from the query.
+func (q exampleQuery) One(ctx context.Context, exec boil.ContextExecutor) (*Example, error) {
+	o := &Example{}
 
 	queries.SetLimit(q.Query, 1)
 
@@ -371,7 +371,7 @@ func (q exampletableQuery) One(ctx context.Context, exec boil.ContextExecutor) (
 		if errors.Cause(err) == sql.ErrNoRows {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "models: failed to execute a one query for exampletable")
+		return nil, errors.Wrap(err, "models: failed to execute a one query for example")
 	}
 
 	if err := o.doAfterSelectHooks(ctx, exec); err != nil {
@@ -381,16 +381,16 @@ func (q exampletableQuery) One(ctx context.Context, exec boil.ContextExecutor) (
 	return o, nil
 }
 
-// All returns all Exampletable records from the query.
-func (q exampletableQuery) All(ctx context.Context, exec boil.ContextExecutor) (ExampletableSlice, error) {
-	var o []*Exampletable
+// All returns all Example records from the query.
+func (q exampleQuery) All(ctx context.Context, exec boil.ContextExecutor) (ExampleSlice, error) {
+	var o []*Example
 
 	err := q.Bind(ctx, exec, &o)
 	if err != nil {
-		return nil, errors.Wrap(err, "models: failed to assign all query results to Exampletable slice")
+		return nil, errors.Wrap(err, "models: failed to assign all query results to Example slice")
 	}
 
-	if len(exampletableAfterSelectHooks) != 0 {
+	if len(exampleAfterSelectHooks) != 0 {
 		for _, obj := range o {
 			if err := obj.doAfterSelectHooks(ctx, exec); err != nil {
 				return o, err
@@ -401,8 +401,8 @@ func (q exampletableQuery) All(ctx context.Context, exec boil.ContextExecutor) (
 	return o, nil
 }
 
-// Count returns the count of all Exampletable records in the query.
-func (q exampletableQuery) Count(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+// Count returns the count of all Example records in the query.
+func (q exampleQuery) Count(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
 	var count int64
 
 	queries.SetSelect(q.Query, nil)
@@ -410,14 +410,14 @@ func (q exampletableQuery) Count(ctx context.Context, exec boil.ContextExecutor)
 
 	err := q.Query.QueryRowContext(ctx, exec).Scan(&count)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to count exampletable rows")
+		return 0, errors.Wrap(err, "models: failed to count example rows")
 	}
 
 	return count, nil
 }
 
 // Exists checks if the row exists in the table.
-func (q exampletableQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool, error) {
+func (q exampleQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool, error) {
 	var count int64
 
 	queries.SetSelect(q.Query, nil)
@@ -426,53 +426,53 @@ func (q exampletableQuery) Exists(ctx context.Context, exec boil.ContextExecutor
 
 	err := q.Query.QueryRowContext(ctx, exec).Scan(&count)
 	if err != nil {
-		return false, errors.Wrap(err, "models: failed to check if exampletable exists")
+		return false, errors.Wrap(err, "models: failed to check if example exists")
 	}
 
 	return count > 0, nil
 }
 
-// Exampletables retrieves all the records using an executor.
-func Exampletables(mods ...qm.QueryMod) exampletableQuery {
-	mods = append(mods, qm.From("`exampletable`"))
-	return exampletableQuery{NewQuery(mods...)}
+// Examples retrieves all the records using an executor.
+func Examples(mods ...qm.QueryMod) exampleQuery {
+	mods = append(mods, qm.From("`example`"))
+	return exampleQuery{NewQuery(mods...)}
 }
 
-// FindExampletable retrieves a single record by ID with an executor.
+// FindExample retrieves a single record by ID with an executor.
 // If selectCols is empty Find will return all columns.
-func FindExampletable(ctx context.Context, exec boil.ContextExecutor, iD uint, selectCols ...string) (*Exampletable, error) {
-	exampletableObj := &Exampletable{}
+func FindExample(ctx context.Context, exec boil.ContextExecutor, iD uint, selectCols ...string) (*Example, error) {
+	exampleObj := &Example{}
 
 	sel := "*"
 	if len(selectCols) > 0 {
 		sel = strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, selectCols), ",")
 	}
 	query := fmt.Sprintf(
-		"select %s from `exampletable` where `id`=?", sel,
+		"select %s from `example` where `id`=?", sel,
 	)
 
 	q := queries.Raw(query, iD)
 
-	err := q.Bind(ctx, exec, exampletableObj)
+	err := q.Bind(ctx, exec, exampleObj)
 	if err != nil {
 		if errors.Cause(err) == sql.ErrNoRows {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "models: unable to select from exampletable")
+		return nil, errors.Wrap(err, "models: unable to select from example")
 	}
 
-	if err = exampletableObj.doAfterSelectHooks(ctx, exec); err != nil {
-		return exampletableObj, err
+	if err = exampleObj.doAfterSelectHooks(ctx, exec); err != nil {
+		return exampleObj, err
 	}
 
-	return exampletableObj, nil
+	return exampleObj, nil
 }
 
 // Insert a single record using an executor.
 // See boil.Columns.InsertColumnSet documentation to understand column list inference for inserts.
-func (o *Exampletable) Insert(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) error {
+func (o *Example) Insert(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) error {
 	if o == nil {
-		return errors.New("models: no exampletable provided for insertion")
+		return errors.New("models: no example provided for insertion")
 	}
 
 	var err error
@@ -488,39 +488,39 @@ func (o *Exampletable) Insert(ctx context.Context, exec boil.ContextExecutor, co
 		return err
 	}
 
-	nzDefaults := queries.NonZeroDefaultSet(exampletableColumnsWithDefault, o)
+	nzDefaults := queries.NonZeroDefaultSet(exampleColumnsWithDefault, o)
 
 	key := makeCacheKey(columns, nzDefaults)
-	exampletableInsertCacheMut.RLock()
-	cache, cached := exampletableInsertCache[key]
-	exampletableInsertCacheMut.RUnlock()
+	exampleInsertCacheMut.RLock()
+	cache, cached := exampleInsertCache[key]
+	exampleInsertCacheMut.RUnlock()
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			exampletableAllColumns,
-			exampletableColumnsWithDefault,
-			exampletableColumnsWithoutDefault,
+			exampleAllColumns,
+			exampleColumnsWithDefault,
+			exampleColumnsWithoutDefault,
 			nzDefaults,
 		)
 
-		cache.valueMapping, err = queries.BindMapping(exampletableType, exampletableMapping, wl)
+		cache.valueMapping, err = queries.BindMapping(exampleType, exampleMapping, wl)
 		if err != nil {
 			return err
 		}
-		cache.retMapping, err = queries.BindMapping(exampletableType, exampletableMapping, returnColumns)
+		cache.retMapping, err = queries.BindMapping(exampleType, exampleMapping, returnColumns)
 		if err != nil {
 			return err
 		}
 		if len(wl) != 0 {
-			cache.query = fmt.Sprintf("INSERT INTO `exampletable` (`%s`) %%sVALUES (%s)%%s", strings.Join(wl, "`,`"), strmangle.Placeholders(dialect.UseIndexPlaceholders, len(wl), 1, 1))
+			cache.query = fmt.Sprintf("INSERT INTO `example` (`%s`) %%sVALUES (%s)%%s", strings.Join(wl, "`,`"), strmangle.Placeholders(dialect.UseIndexPlaceholders, len(wl), 1, 1))
 		} else {
-			cache.query = "INSERT INTO `exampletable` () VALUES ()%s%s"
+			cache.query = "INSERT INTO `example` () VALUES ()%s%s"
 		}
 
 		var queryOutput, queryReturning string
 
 		if len(cache.retMapping) != 0 {
-			cache.retQuery = fmt.Sprintf("SELECT `%s` FROM `exampletable` WHERE %s", strings.Join(returnColumns, "`,`"), strmangle.WhereClause("`", "`", 0, exampletablePrimaryKeyColumns))
+			cache.retQuery = fmt.Sprintf("SELECT `%s` FROM `example` WHERE %s", strings.Join(returnColumns, "`,`"), strmangle.WhereClause("`", "`", 0, examplePrimaryKeyColumns))
 		}
 
 		cache.query = fmt.Sprintf(cache.query, queryOutput, queryReturning)
@@ -537,7 +537,7 @@ func (o *Exampletable) Insert(ctx context.Context, exec boil.ContextExecutor, co
 	result, err := exec.ExecContext(ctx, cache.query, vals...)
 
 	if err != nil {
-		return errors.Wrap(err, "models: unable to insert into exampletable")
+		return errors.Wrap(err, "models: unable to insert into example")
 	}
 
 	var lastID int64
@@ -553,7 +553,7 @@ func (o *Exampletable) Insert(ctx context.Context, exec boil.ContextExecutor, co
 	}
 
 	o.ID = uint(lastID)
-	if lastID != 0 && len(cache.retMapping) == 1 && cache.retMapping[0] == exampletableMapping["id"] {
+	if lastID != 0 && len(cache.retMapping) == 1 && cache.retMapping[0] == exampleMapping["id"] {
 		goto CacheNoHooks
 	}
 
@@ -568,50 +568,50 @@ func (o *Exampletable) Insert(ctx context.Context, exec boil.ContextExecutor, co
 	}
 	err = exec.QueryRowContext(ctx, cache.retQuery, identifierCols...).Scan(queries.PtrsFromMapping(value, cache.retMapping)...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to populate default values for exampletable")
+		return errors.Wrap(err, "models: unable to populate default values for example")
 	}
 
 CacheNoHooks:
 	if !cached {
-		exampletableInsertCacheMut.Lock()
-		exampletableInsertCache[key] = cache
-		exampletableInsertCacheMut.Unlock()
+		exampleInsertCacheMut.Lock()
+		exampleInsertCache[key] = cache
+		exampleInsertCacheMut.Unlock()
 	}
 
 	return o.doAfterInsertHooks(ctx, exec)
 }
 
-// Update uses an executor to update the Exampletable.
+// Update uses an executor to update the Example.
 // See boil.Columns.UpdateColumnSet documentation to understand column list inference for updates.
 // Update does not automatically update the record in case of default values. Use .Reload() to refresh the records.
-func (o *Exampletable) Update(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) (int64, error) {
+func (o *Example) Update(ctx context.Context, exec boil.ContextExecutor, columns boil.Columns) (int64, error) {
 	var err error
 	if err = o.doBeforeUpdateHooks(ctx, exec); err != nil {
 		return 0, err
 	}
 	key := makeCacheKey(columns, nil)
-	exampletableUpdateCacheMut.RLock()
-	cache, cached := exampletableUpdateCache[key]
-	exampletableUpdateCacheMut.RUnlock()
+	exampleUpdateCacheMut.RLock()
+	cache, cached := exampleUpdateCache[key]
+	exampleUpdateCacheMut.RUnlock()
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			exampletableAllColumns,
-			exampletablePrimaryKeyColumns,
+			exampleAllColumns,
+			examplePrimaryKeyColumns,
 		)
 
 		if !columns.IsWhitelist() {
 			wl = strmangle.SetComplement(wl, []string{"created_at"})
 		}
 		if len(wl) == 0 {
-			return 0, errors.New("models: unable to update exampletable, could not build whitelist")
+			return 0, errors.New("models: unable to update example, could not build whitelist")
 		}
 
-		cache.query = fmt.Sprintf("UPDATE `exampletable` SET %s WHERE %s",
+		cache.query = fmt.Sprintf("UPDATE `example` SET %s WHERE %s",
 			strmangle.SetParamNames("`", "`", 0, wl),
-			strmangle.WhereClause("`", "`", 0, exampletablePrimaryKeyColumns),
+			strmangle.WhereClause("`", "`", 0, examplePrimaryKeyColumns),
 		)
-		cache.valueMapping, err = queries.BindMapping(exampletableType, exampletableMapping, append(wl, exampletablePrimaryKeyColumns...))
+		cache.valueMapping, err = queries.BindMapping(exampleType, exampleMapping, append(wl, examplePrimaryKeyColumns...))
 		if err != nil {
 			return 0, err
 		}
@@ -627,42 +627,42 @@ func (o *Exampletable) Update(ctx context.Context, exec boil.ContextExecutor, co
 	var result sql.Result
 	result, err = exec.ExecContext(ctx, cache.query, values...)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to update exampletable row")
+		return 0, errors.Wrap(err, "models: unable to update example row")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to get rows affected by update for exampletable")
+		return 0, errors.Wrap(err, "models: failed to get rows affected by update for example")
 	}
 
 	if !cached {
-		exampletableUpdateCacheMut.Lock()
-		exampletableUpdateCache[key] = cache
-		exampletableUpdateCacheMut.Unlock()
+		exampleUpdateCacheMut.Lock()
+		exampleUpdateCache[key] = cache
+		exampleUpdateCacheMut.Unlock()
 	}
 
 	return rowsAff, o.doAfterUpdateHooks(ctx, exec)
 }
 
 // UpdateAll updates all rows with the specified column values.
-func (q exampletableQuery) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) (int64, error) {
+func (q exampleQuery) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) (int64, error) {
 	queries.SetUpdate(q.Query, cols)
 
 	result, err := q.Query.ExecContext(ctx, exec)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to update all for exampletable")
+		return 0, errors.Wrap(err, "models: unable to update all for example")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to retrieve rows affected for exampletable")
+		return 0, errors.Wrap(err, "models: unable to retrieve rows affected for example")
 	}
 
 	return rowsAff, nil
 }
 
 // UpdateAll updates all rows with the specified column values, using an executor.
-func (o ExampletableSlice) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) (int64, error) {
+func (o ExampleSlice) UpdateAll(ctx context.Context, exec boil.ContextExecutor, cols M) (int64, error) {
 	ln := int64(len(o))
 	if ln == 0 {
 		return 0, nil
@@ -684,13 +684,13 @@ func (o ExampletableSlice) UpdateAll(ctx context.Context, exec boil.ContextExecu
 
 	// Append all of the primary key values for each column
 	for _, obj := range o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), exampletablePrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), examplePrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := fmt.Sprintf("UPDATE `exampletable` SET %s WHERE %s",
+	sql := fmt.Sprintf("UPDATE `example` SET %s WHERE %s",
 		strmangle.SetParamNames("`", "`", 0, colNames),
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, exampletablePrimaryKeyColumns, len(o)))
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, examplePrimaryKeyColumns, len(o)))
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -699,25 +699,25 @@ func (o ExampletableSlice) UpdateAll(ctx context.Context, exec boil.ContextExecu
 	}
 	result, err := exec.ExecContext(ctx, sql, args...)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to update all in exampletable slice")
+		return 0, errors.Wrap(err, "models: unable to update all in example slice")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to retrieve rows affected all in update all exampletable")
+		return 0, errors.Wrap(err, "models: unable to retrieve rows affected all in update all example")
 	}
 	return rowsAff, nil
 }
 
-var mySQLExampletableUniqueColumns = []string{
+var mySQLExampleUniqueColumns = []string{
 	"id",
 }
 
 // Upsert attempts an insert using an executor, and does an update or ignore on conflict.
 // See boil.Columns documentation for how to properly use updateColumns and insertColumns.
-func (o *Exampletable) Upsert(ctx context.Context, exec boil.ContextExecutor, updateColumns, insertColumns boil.Columns) error {
+func (o *Example) Upsert(ctx context.Context, exec boil.ContextExecutor, updateColumns, insertColumns boil.Columns) error {
 	if o == nil {
-		return errors.New("models: no exampletable provided for upsert")
+		return errors.New("models: no example provided for upsert")
 	}
 	if !boil.TimestampsAreSkipped(ctx) {
 		currTime := time.Now().In(boil.GetLocation())
@@ -731,8 +731,8 @@ func (o *Exampletable) Upsert(ctx context.Context, exec boil.ContextExecutor, up
 		return err
 	}
 
-	nzDefaults := queries.NonZeroDefaultSet(exampletableColumnsWithDefault, o)
-	nzUniques := queries.NonZeroDefaultSet(mySQLExampletableUniqueColumns, o)
+	nzDefaults := queries.NonZeroDefaultSet(exampleColumnsWithDefault, o)
+	nzUniques := queries.NonZeroDefaultSet(mySQLExampleUniqueColumns, o)
 
 	if len(nzUniques) == 0 {
 		return errors.New("cannot upsert with a table that cannot conflict on a unique column")
@@ -760,43 +760,43 @@ func (o *Exampletable) Upsert(ctx context.Context, exec boil.ContextExecutor, up
 	key := buf.String()
 	strmangle.PutBuffer(buf)
 
-	exampletableUpsertCacheMut.RLock()
-	cache, cached := exampletableUpsertCache[key]
-	exampletableUpsertCacheMut.RUnlock()
+	exampleUpsertCacheMut.RLock()
+	cache, cached := exampleUpsertCache[key]
+	exampleUpsertCacheMut.RUnlock()
 
 	var err error
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			exampletableAllColumns,
-			exampletableColumnsWithDefault,
-			exampletableColumnsWithoutDefault,
+			exampleAllColumns,
+			exampleColumnsWithDefault,
+			exampleColumnsWithoutDefault,
 			nzDefaults,
 		)
 
 		update := updateColumns.UpdateColumnSet(
-			exampletableAllColumns,
-			exampletablePrimaryKeyColumns,
+			exampleAllColumns,
+			examplePrimaryKeyColumns,
 		)
 
 		if !updateColumns.IsNone() && len(update) == 0 {
-			return errors.New("models: unable to upsert exampletable, could not build update column list")
+			return errors.New("models: unable to upsert example, could not build update column list")
 		}
 
 		ret = strmangle.SetComplement(ret, nzUniques)
-		cache.query = buildUpsertQueryMySQL(dialect, "`exampletable`", update, insert)
+		cache.query = buildUpsertQueryMySQL(dialect, "`example`", update, insert)
 		cache.retQuery = fmt.Sprintf(
-			"SELECT %s FROM `exampletable` WHERE %s",
+			"SELECT %s FROM `example` WHERE %s",
 			strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, ret), ","),
 			strmangle.WhereClause("`", "`", 0, nzUniques),
 		)
 
-		cache.valueMapping, err = queries.BindMapping(exampletableType, exampletableMapping, insert)
+		cache.valueMapping, err = queries.BindMapping(exampleType, exampleMapping, insert)
 		if err != nil {
 			return err
 		}
 		if len(ret) != 0 {
-			cache.retMapping, err = queries.BindMapping(exampletableType, exampletableMapping, ret)
+			cache.retMapping, err = queries.BindMapping(exampleType, exampleMapping, ret)
 			if err != nil {
 				return err
 			}
@@ -818,7 +818,7 @@ func (o *Exampletable) Upsert(ctx context.Context, exec boil.ContextExecutor, up
 	result, err := exec.ExecContext(ctx, cache.query, vals...)
 
 	if err != nil {
-		return errors.Wrap(err, "models: unable to upsert for exampletable")
+		return errors.Wrap(err, "models: unable to upsert for example")
 	}
 
 	var lastID int64
@@ -835,13 +835,13 @@ func (o *Exampletable) Upsert(ctx context.Context, exec boil.ContextExecutor, up
 	}
 
 	o.ID = uint(lastID)
-	if lastID != 0 && len(cache.retMapping) == 1 && cache.retMapping[0] == exampletableMapping["id"] {
+	if lastID != 0 && len(cache.retMapping) == 1 && cache.retMapping[0] == exampleMapping["id"] {
 		goto CacheNoHooks
 	}
 
-	uniqueMap, err = queries.BindMapping(exampletableType, exampletableMapping, nzUniques)
+	uniqueMap, err = queries.BindMapping(exampleType, exampleMapping, nzUniques)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to retrieve unique values for exampletable")
+		return errors.Wrap(err, "models: unable to retrieve unique values for example")
 	}
 	nzUniqueCols = queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), uniqueMap)
 
@@ -852,32 +852,32 @@ func (o *Exampletable) Upsert(ctx context.Context, exec boil.ContextExecutor, up
 	}
 	err = exec.QueryRowContext(ctx, cache.retQuery, nzUniqueCols...).Scan(returns...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to populate default values for exampletable")
+		return errors.Wrap(err, "models: unable to populate default values for example")
 	}
 
 CacheNoHooks:
 	if !cached {
-		exampletableUpsertCacheMut.Lock()
-		exampletableUpsertCache[key] = cache
-		exampletableUpsertCacheMut.Unlock()
+		exampleUpsertCacheMut.Lock()
+		exampleUpsertCache[key] = cache
+		exampleUpsertCacheMut.Unlock()
 	}
 
 	return o.doAfterUpsertHooks(ctx, exec)
 }
 
-// Delete deletes a single Exampletable record with an executor.
+// Delete deletes a single Example record with an executor.
 // Delete will match against the primary key column to find the record to delete.
-func (o *Exampletable) Delete(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+func (o *Example) Delete(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
 	if o == nil {
-		return 0, errors.New("models: no Exampletable provided for delete")
+		return 0, errors.New("models: no Example provided for delete")
 	}
 
 	if err := o.doBeforeDeleteHooks(ctx, exec); err != nil {
 		return 0, err
 	}
 
-	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), exampletablePrimaryKeyMapping)
-	sql := "DELETE FROM `exampletable` WHERE `id`=?"
+	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), examplePrimaryKeyMapping)
+	sql := "DELETE FROM `example` WHERE `id`=?"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -886,12 +886,12 @@ func (o *Exampletable) Delete(ctx context.Context, exec boil.ContextExecutor) (i
 	}
 	result, err := exec.ExecContext(ctx, sql, args...)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to delete from exampletable")
+		return 0, errors.Wrap(err, "models: unable to delete from example")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to get rows affected by delete for exampletable")
+		return 0, errors.Wrap(err, "models: failed to get rows affected by delete for example")
 	}
 
 	if err := o.doAfterDeleteHooks(ctx, exec); err != nil {
@@ -902,33 +902,33 @@ func (o *Exampletable) Delete(ctx context.Context, exec boil.ContextExecutor) (i
 }
 
 // DeleteAll deletes all matching rows.
-func (q exampletableQuery) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+func (q exampleQuery) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
 	if q.Query == nil {
-		return 0, errors.New("models: no exampletableQuery provided for delete all")
+		return 0, errors.New("models: no exampleQuery provided for delete all")
 	}
 
 	queries.SetDelete(q.Query)
 
 	result, err := q.Query.ExecContext(ctx, exec)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to delete all from exampletable")
+		return 0, errors.Wrap(err, "models: unable to delete all from example")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to get rows affected by deleteall for exampletable")
+		return 0, errors.Wrap(err, "models: failed to get rows affected by deleteall for example")
 	}
 
 	return rowsAff, nil
 }
 
 // DeleteAll deletes all rows in the slice, using an executor.
-func (o ExampletableSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
+func (o ExampleSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
 	if len(o) == 0 {
 		return 0, nil
 	}
 
-	if len(exampletableBeforeDeleteHooks) != 0 {
+	if len(exampleBeforeDeleteHooks) != 0 {
 		for _, obj := range o {
 			if err := obj.doBeforeDeleteHooks(ctx, exec); err != nil {
 				return 0, err
@@ -938,12 +938,12 @@ func (o ExampletableSlice) DeleteAll(ctx context.Context, exec boil.ContextExecu
 
 	var args []interface{}
 	for _, obj := range o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), exampletablePrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), examplePrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := "DELETE FROM `exampletable` WHERE " +
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, exampletablePrimaryKeyColumns, len(o))
+	sql := "DELETE FROM `example` WHERE " +
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, examplePrimaryKeyColumns, len(o))
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -952,15 +952,15 @@ func (o ExampletableSlice) DeleteAll(ctx context.Context, exec boil.ContextExecu
 	}
 	result, err := exec.ExecContext(ctx, sql, args...)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to delete all from exampletable slice")
+		return 0, errors.Wrap(err, "models: unable to delete all from example slice")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to get rows affected by deleteall for exampletable")
+		return 0, errors.Wrap(err, "models: failed to get rows affected by deleteall for example")
 	}
 
-	if len(exampletableAfterDeleteHooks) != 0 {
+	if len(exampleAfterDeleteHooks) != 0 {
 		for _, obj := range o {
 			if err := obj.doAfterDeleteHooks(ctx, exec); err != nil {
 				return 0, err
@@ -973,8 +973,8 @@ func (o ExampletableSlice) DeleteAll(ctx context.Context, exec boil.ContextExecu
 
 // Reload refetches the object from the database
 // using the primary keys with an executor.
-func (o *Exampletable) Reload(ctx context.Context, exec boil.ContextExecutor) error {
-	ret, err := FindExampletable(ctx, exec, o.ID)
+func (o *Example) Reload(ctx context.Context, exec boil.ContextExecutor) error {
+	ret, err := FindExample(ctx, exec, o.ID)
 	if err != nil {
 		return err
 	}
@@ -985,26 +985,26 @@ func (o *Exampletable) Reload(ctx context.Context, exec boil.ContextExecutor) er
 
 // ReloadAll refetches every row with matching primary key column values
 // and overwrites the original object slice with the newly updated slice.
-func (o *ExampletableSlice) ReloadAll(ctx context.Context, exec boil.ContextExecutor) error {
+func (o *ExampleSlice) ReloadAll(ctx context.Context, exec boil.ContextExecutor) error {
 	if o == nil || len(*o) == 0 {
 		return nil
 	}
 
-	slice := ExampletableSlice{}
+	slice := ExampleSlice{}
 	var args []interface{}
 	for _, obj := range *o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), exampletablePrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), examplePrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := "SELECT `exampletable`.* FROM `exampletable` WHERE " +
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, exampletablePrimaryKeyColumns, len(*o))
+	sql := "SELECT `example`.* FROM `example` WHERE " +
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 0, examplePrimaryKeyColumns, len(*o))
 
 	q := queries.Raw(sql, args...)
 
 	err := q.Bind(ctx, exec, &slice)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to reload all in ExampletableSlice")
+		return errors.Wrap(err, "models: unable to reload all in ExampleSlice")
 	}
 
 	*o = slice
@@ -1012,10 +1012,10 @@ func (o *ExampletableSlice) ReloadAll(ctx context.Context, exec boil.ContextExec
 	return nil
 }
 
-// ExampletableExists checks if the Exampletable row exists.
-func ExampletableExists(ctx context.Context, exec boil.ContextExecutor, iD uint) (bool, error) {
+// ExampleExists checks if the Example row exists.
+func ExampleExists(ctx context.Context, exec boil.ContextExecutor, iD uint) (bool, error) {
 	var exists bool
-	sql := "select exists(select 1 from `exampletable` where `id`=? limit 1)"
+	sql := "select exists(select 1 from `example` where `id`=? limit 1)"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -1026,7 +1026,7 @@ func ExampletableExists(ctx context.Context, exec boil.ContextExecutor, iD uint)
 
 	err := row.Scan(&exists)
 	if err != nil {
-		return false, errors.Wrap(err, "models: unable to check if exampletable exists")
+		return false, errors.Wrap(err, "models: unable to check if example exists")
 	}
 
 	return exists, nil

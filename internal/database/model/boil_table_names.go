@@ -4,7 +4,7 @@
 package models
 
 var TableNames = struct {
-	Exampletable string
+	Example string
 }{
-	Exampletable: "exampletable",
+	Example: "example",
 }

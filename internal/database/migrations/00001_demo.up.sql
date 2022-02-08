@@ -1,4 +1,4 @@
-CREATE TABLE `exampletable` (
+CREATE TABLE `example` (
     `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     `title` varchar(50) NOT NULL,
     `created_at` datetime NOT NULL DEFAULT current_timestamp(),

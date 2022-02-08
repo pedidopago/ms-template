@@ -1,1 +1,1 @@
-DROP TABLE `exampletable`;
+DROP TABLE `example`;

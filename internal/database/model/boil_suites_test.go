@@ -12,52 +12,52 @@ import "testing"
 // It does NOT run each operation group in parallel.
 // Separating the tests thusly grants avoidance of Postgres deadlocks.
 func TestParent(t *testing.T) {
-	t.Run("Exampletables", testExampletables)
+	t.Run("Examples", testExamples)
 }
 
 func TestDelete(t *testing.T) {
-	t.Run("Exampletables", testExampletablesDelete)
+	t.Run("Examples", testExamplesDelete)
 }
 
 func TestQueryDeleteAll(t *testing.T) {
-	t.Run("Exampletables", testExampletablesQueryDeleteAll)
+	t.Run("Examples", testExamplesQueryDeleteAll)
 }
 
 func TestSliceDeleteAll(t *testing.T) {
-	t.Run("Exampletables", testExampletablesSliceDeleteAll)
+	t.Run("Examples", testExamplesSliceDeleteAll)
 }
 
 func TestExists(t *testing.T) {
-	t.Run("Exampletables", testExampletablesExists)
+	t.Run("Examples", testExamplesExists)
 }
 
 func TestFind(t *testing.T) {
-	t.Run("Exampletables", testExampletablesFind)
+	t.Run("Examples", testExamplesFind)
 }
 
 func TestBind(t *testing.T) {
-	t.Run("Exampletables", testExampletablesBind)
+	t.Run("Examples", testExamplesBind)
 }
 
 func TestOne(t *testing.T) {
-	t.Run("Exampletables", testExampletablesOne)
+	t.Run("Examples", testExamplesOne)
 }
 
 func TestAll(t *testing.T) {
-	t.Run("Exampletables", testExampletablesAll)
+	t.Run("Examples", testExamplesAll)
 }
 
 func TestCount(t *testing.T) {
-	t.Run("Exampletables", testExampletablesCount)
+	t.Run("Examples", testExamplesCount)
 }
 
 func TestHooks(t *testing.T) {
-	t.Run("Exampletables", testExampletablesHooks)
+	t.Run("Examples", testExamplesHooks)
 }
 
 func TestInsert(t *testing.T) {
-	t.Run("Exampletables", testExampletablesInsert)
-	t.Run("Exampletables", testExampletablesInsertWhitelist)
+	t.Run("Examples", testExamplesInsert)
+	t.Run("Examples", testExamplesInsertWhitelist)
 }
 
 // TestToOne tests cannot be run in parallel
@@ -101,21 +101,21 @@ func TestToManySet(t *testing.T) {}
 func TestToManyRemove(t *testing.T) {}
 
 func TestReload(t *testing.T) {
-	t.Run("Exampletables", testExampletablesReload)
+	t.Run("Examples", testExamplesReload)
 }
 
 func TestReloadAll(t *testing.T) {
-	t.Run("Exampletables", testExampletablesReloadAll)
+	t.Run("Examples", testExamplesReloadAll)
 }
 
 func TestSelect(t *testing.T) {
-	t.Run("Exampletables", testExampletablesSelect)
+	t.Run("Examples", testExamplesSelect)
 }
 
 func TestUpdate(t *testing.T) {
-	t.Run("Exampletables", testExampletablesUpdate)
+	t.Run("Examples", testExamplesUpdate)
 }
 
 func TestSliceUpdateAll(t *testing.T) {
-	t.Run("Exampletables", testExampletablesSliceUpdateAll)
+	t.Run("Examples", testExamplesSliceUpdateAll)
 }

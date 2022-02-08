@@ -6,5 +6,5 @@ package models
 import "testing"
 
 func TestUpsert(t *testing.T) {
-	t.Run("Exampletables", testExampletablesUpsert)
+	t.Run("Examples", testExamplesUpsert)
 }
