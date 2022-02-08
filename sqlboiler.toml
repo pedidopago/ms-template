@@ -1,0 +1,5 @@
+output="internal/database/model"
+add-enum-types=true
+
+[mysql]
+blacklist=["schema_migrations"]
