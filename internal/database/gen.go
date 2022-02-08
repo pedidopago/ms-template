@@ -1,4 +1,4 @@
 package database
 
 // sqlboiler
-//go:generate sqlboiler --wipe mysql
+//go:generate sqlboiler mysql
